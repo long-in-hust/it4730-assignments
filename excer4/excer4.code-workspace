@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "excer4",
+			"path": "."
+		},
+		{
+			"name": "excer5",
+			"path": "../excer5"
+		}
+	],
+	"settings": {}
+}
