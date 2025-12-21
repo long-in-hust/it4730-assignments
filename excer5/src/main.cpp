@@ -35,6 +35,10 @@ void loop() {
   String temp = String(dht.readTemperature(), 1);
   String hum = String(dht.readHumidity(), 1);
   printDht(temp, hum, lcd);
-  sendDht(temp, hum);
+  sendDhtGet(temp, hum);
+  delay(1000);
+  sendDhtPostUrl(temp, hum);
+  delay(1000);
+  sendDhtPostBody(temp, hum);
   delay(1000);
 }
