@@ -1,38 +1,31 @@
-#include <WiFi.h>
-#include <ArduinoHttpClient.h>
-#include <ArduinoJson.h>
+#include "projectlib.h"
 
-const String serverPrefix = "postman-echo.com";
-WiFiClient client;
+#define DHTTYPE DHT22
+#define DHTPIN 45
 
 void httpGetFunction1();
+void printDht(String temp, String hum);
+void sendDht(String temp, String hum);
+
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
+  Serial.begin(115200);
+  while (!Serial) {}
+
   WiFi.begin("Wokwi-GUEST", "", 6);
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);
-    printf(".");
+    Serial.print(".");
   }
-  printf("\nConnected!\n");
+  Serial.println("\nConnected!");
 
   delay(1000);
-
-  httpGetFunction1();
 }
 
 void loop() {
-  delay(100);
-}
-
-void httpGetFunction1() {
-  printf("--- HTTP GET - using urlencoded data ---\n\n");
-
-  if(WiFi.status()== WL_CONNECTED) {
-    HttpClient http(client, serverPrefix);
-    int returnCode = http.get("/get");
-    if (returnCode == 0) {
-      printf("Response Status Code: %d\n", http.responseStatusCode());
-      printf("Response Body: \n%s\n", http.responseBody());
-    }
-  }
+  String temp = String(dht.readTemperature(), 1);
+  String hum = String(dht.readHumidity(), 1);
+  printDht(temp, hum);
+  delay(1000);
 }
