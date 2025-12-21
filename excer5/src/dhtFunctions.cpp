@@ -1,25 +1,42 @@
-#include "projectlib.h"
+#include "dhtFunctions.h"
 
-#define I2C_SDA 42
-#define I2C_SCL 41
-// #define DHTTYPE DHT22
-// #define DHTPIN 45
+const String serverPrefix = "postman-echo.com";
+WiFiClient client;
 
-LiquidCrystal_I2C lcd(0x27,16,2);
-// DHT dht(DHTPIN, DHTTYPE);
+void printDht(String temp, String hum, LiquidCrystal_I2C display) {
+  display.clear();
 
-void printDht(float temp, float hum) {
-  String messageTemp = "";
-  String messageHum = "";
-  // float temp = dht.readTemperature();
-  // float hum = dht.readHumidity();
-  messageTemp = "Temp: " + String(temp, 1);
-  messageHum = "Hum: "  + String(hum, 1);
+  String messageTemp = "Temp: " + temp;
+  String messageHum = "Hum: " + hum;
 
-  lcd.setCursor(0, 0);
-  lcd.print(messageTemp);
+  Serial.println(messageTemp);
+  display.setCursor(0, 0);
+  display.print(messageTemp);
+  
+  Serial.println(messageHum);
+  display.setCursor(0, 1);
+  display.print(messageHum);
+}
 
-  lcd.setCursor(0, 1);
-  lcd.print(messageHum);
+void sendDht(String temp, String hum) {
+  Serial.println("--- HTTP GET - using urlencoded data ---\n\n");
 
+  String path = "/get?temperature=" + temp + "&humidity=" + hum;
+
+  if(WiFi.status()== WL_CONNECTED) {
+    HttpClient http(client, serverPrefix);
+    int returnCode = http.get(path);
+    if (returnCode == 0) {
+      Serial.print("Response Status Code: ");
+      Serial.println(http.responseStatusCode());
+      
+      JsonDocument doc;
+      deserializeJson(doc, http.responseBody());
+      String prettyPayload = "";
+      serializeJsonPretty(doc, prettyPayload);
+
+      Serial.printf("Response Body: ");
+      Serial.println(prettyPayload);
+    }
+  }
 }

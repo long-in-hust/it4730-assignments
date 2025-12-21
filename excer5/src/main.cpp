@@ -1,15 +1,16 @@
 #include "projectlib.h"
+#include "dhtFunctions.h"
 
 #define DHTTYPE DHT22
-#define DHTPIN 45
-
-void httpGetFunction1();
-void printDht(String temp, String hum);
-void sendDht(String temp, String hum);
+#define DHTPIN 2
+#define I2C_SDA 42
+#define I2C_SCL 41
 
 DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 void setup() {
+  Wire.setPins(I2C_SDA, I2C_SCL);
   Serial.begin(115200);
   while (!Serial) {}
 
@@ -20,12 +21,20 @@ void setup() {
   }
   Serial.println("\nConnected!");
 
+  lcd.init();                     
+  lcd.backlight();
+  Serial.println("\nLCD initialised!");
+
+  dht.begin();
+  Serial.println("\nDHT initialised!");
+
   delay(1000);
 }
 
 void loop() {
   String temp = String(dht.readTemperature(), 1);
   String hum = String(dht.readHumidity(), 1);
-  printDht(temp, hum);
+  printDht(temp, hum, lcd);
+  sendDht(temp, hum);
   delay(1000);
 }
