@@ -18,7 +18,6 @@ String messageHum = "";
 
 void loopBlinkLed(void *pvParameters);
 void loopPrintDht(void *pvParameters);
-void scroll(int row, String message, int delayTime);
 
 void setup() {
   pinMode (LEDPIN, OUTPUT);
