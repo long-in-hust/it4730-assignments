@@ -34,6 +34,7 @@ void setup() {
   Serial.println("\nDHT initialised!");
 
   psClient.setServer(brokerHost, 1883);
+  psClient.setCallback(mqttCallback);
 
   delay(1000);
 }
@@ -53,6 +54,7 @@ void loop() {
 
   if (mqttConnected(psClient, brokerHost)) {
     mqttPublish(psClient, data);
+    psClient.subscribe("LongLong1057LED");
   }
 
   delay(1000);
