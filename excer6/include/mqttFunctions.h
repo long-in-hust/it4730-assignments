@@ -5,5 +5,6 @@
 
 boolean mqttConnected(PubSubClient &client, const char * server);
 void mqttPublish(PubSubClient &client, dht_data data);
+void mqttCallback(PubSubClient &client, dht_data data);
 
 #endif

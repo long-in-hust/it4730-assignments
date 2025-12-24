@@ -37,3 +37,23 @@ void mqttPublish(PubSubClient &client, dht_data data) {
     client.publish("LongLong1057IT", message.c_str());
     Serial.println("Published to topic \"LongLong1057IT\".");
 }
+
+void mqttCallback(char *topic, byte *payload, unsigned int length)
+{
+    Serial.println("Message arrived [" + String (topic) + "]:");
+    for (int i = 0; i < length; i++)
+    {
+        Serial.print((char)payload[i]);
+    }
+    Serial.println();
+
+    // Switch on the LED if an 1 was received as first character
+    if ((char)payload[0] == '1')
+    {
+        digitalWrite(BUILTIN_LED, LOW);
+    }
+    else
+    {
+        digitalWrite(BUILTIN_LED, HIGH);
+    }
+}
