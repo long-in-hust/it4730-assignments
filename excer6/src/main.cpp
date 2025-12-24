@@ -15,6 +15,8 @@ PubSubClient psClient(espClient);
 const char* brokerHost = "broker.emqx.io";
 
 void setup() {
+  pinMode(LEDPIN, OUTPUT);
+
   Wire.setPins(I2C_SDA, I2C_SCL);
   Serial.begin(115200);
   while (!Serial) {}
@@ -53,8 +55,10 @@ void loop() {
   );
 
   if (mqttConnected(psClient, brokerHost)) {
-    mqttPublish(psClient, data);
     psClient.subscribe("LongLong1057LED");
+    psClient.loop();
+    mqttPublish(psClient, data);
+    psClient.loop();
   }
 
   delay(1000);

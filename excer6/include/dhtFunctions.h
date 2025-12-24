@@ -4,6 +4,5 @@
 #include "projectlib.h"
 
 void printDht(String temp, String hum, LiquidCrystal_I2C display);
-void sendMqtt(String temp, String hum);
 
 #endif

@@ -50,10 +50,12 @@ void mqttCallback(char *topic, byte *payload, unsigned int length)
     // Switch on the LED if an 1 was received as first character
     if ((char)payload[0] == '1')
     {
-        digitalWrite(BUILTIN_LED, LOW);
+        digitalWrite(LEDPIN, HIGH);
+        delay(1000);
     }
     else
     {
-        digitalWrite(BUILTIN_LED, HIGH);
+        digitalWrite(LEDPIN, LOW);
+        delay(1000);
     }
 }

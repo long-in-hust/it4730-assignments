@@ -12,16 +12,27 @@
       "attrs": { "pins": "i2c" }
     },
     { "type": "wokwi-vcc", "id": "vcc1", "top": -56.84, "left": 163.2, "attrs": {} },
-    { "type": "wokwi-dht22", "id": "dht1", "top": 9.9, "left": -178.2, "attrs": {} }
+    { "type": "wokwi-dht22", "id": "dht1", "top": 9.9, "left": -178.2, "attrs": {} },
+    { "type": "wokwi-led", "id": "led1", "top": -42, "left": 263, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 13.55,
+      "left": 182.4,
+      "attrs": { "value": "100" }
+    }
   ],
   "connections": [
-    [ "lcd1:GND", "esp:GND.2", "black", [ "h-48", "v-105.6" ] ],
+    [ "lcd1:GND", "esp:GND.2", "black", [ "h-38.4", "v-96" ] ],
     [ "lcd1:VCC", "vcc1:VCC", "red", [ "h0" ] ],
     [ "lcd1:SDA", "esp:42", "green", [ "h-76.8", "v-57.4" ] ],
     [ "lcd1:SCL", "esp:41", "purple", [ "h-86.4", "v-57.3" ] ],
     [ "dht1:VCC", "esp:3V3", "red", [ "v67.2", "h124.8", "v-172.8" ] ],
     [ "dht1:SDA", "esp:2", "green", [ "v57.6", "h76.9", "v-134.4" ] ],
-    [ "dht1:GND", "esp:GND.1", "black", [ "v0" ] ]
+    [ "dht1:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "led1:C", "r1:2", "black", [ "v0" ] ],
+    [ "r1:1", "esp:GND.2", "black", [ "v0" ] ],
+    [ "led1:A", "esp:38", "green", [ "v57.6", "h-153.6", "v57.6" ] ]
   ],
   "dependencies": {}
 }
